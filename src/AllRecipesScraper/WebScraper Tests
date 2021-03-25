@@ -1,0 +1,51 @@
+ //REMEMBER to replace spaces with dots
+
+
+ public void grabImages(String url) throws IOException {
+        //https://www.allrecipes.com/recipes/201/meat-and-poultry/chicken/?internalSource=hubcard&referringContentType=Search&clickId=cardslot%201
+        Document doc = Jsoup.connect(url).get();
+//        String title = doc.text();
+//        System.out.println(title);
+//        Elements body = doc.select("div.category-page-list-content");
+        Elements body = doc.select("div.card__imageContainer");
+//        System.out.println(body.select("div.component.card.card__category").size()); //72
+        for(var element : body) {
+            //"alt" for attribute to printOut titles of each dish
+            String img = scrapeRecipeImage(element);
+            System.out.println(img);
+        }
+    }
+
+    public void grabTitles(String url) throws IOException {
+        //https://www.allrecipes.com/recipes/201/meat-and-poultry/chicken/?internalSource=hubcard&referringContentType=Search&clickId=cardslot%201
+        Document doc = Jsoup.connect(url).get();
+//        String title = doc.text();
+//        System.out.println(title);
+//        Elements body = doc.select("div.category-page-list-content");
+        Elements body = doc.select("div.card__imageContainer");
+//        System.out.println(body.select("img").size()); //72
+        for(var element : body) {
+            //"alt" for attribute to printOut titles of each dish
+            String title = scrapeRecipeName(element);
+            System.out.println(title);
+
+        }
+    }
+
+    public void grabRecipeLinks(String url) throws IOException{
+        Document doc = Jsoup.connect(url).get();
+        Elements body = doc.select("div.card__imageContainer");
+        for(var element : body) {
+            String recipeLink = scrapeRecipeUrl(element);
+            System.out.println(recipeLink);
+
+        }
+    }
+
+// For card output testing
+  var recipeCards1 = CardHandler.loadCards("RecipeCards.ser");
+       for (var recipe : recipeCards1) {
+            System.out.println(recipe.getRecipeUrl());
+            System.out.println(recipe.getIngredients().toString());
+            System.out.println(recipe.getCookingInstructions().toString());
+        }
